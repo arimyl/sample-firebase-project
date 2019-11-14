@@ -58,6 +58,7 @@ class AuthSample extends React.Component {
     try {
       await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
     } catch (e) {
+      console.log(e);
       // pass
     }
   }
@@ -66,6 +67,7 @@ class AuthSample extends React.Component {
     try {
       await firebase.auth().signOut();
     } catch (e) {
+      console.log(e);
       // pass
     }
   }
