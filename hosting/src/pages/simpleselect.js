@@ -1,7 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import InputLabel from '@material-ui/core/InputLabel';
-import MenuItem from '@material-ui/core/MenuItem';
+import {MenuItem, ListItem} from '@material-ui/core';
 import FormHelperText from '@material-ui/core/FormHelperText';
 import FormControl from '@material-ui/core/FormControl';
 import Select from '@material-ui/core/Select';
@@ -18,30 +18,49 @@ const useStyles = makeStyles(theme => ({
 
 export default function SimpleSelect() {
   const classes = useStyles();
-  const [age, setAge] = React.useState(21);
-  console.log(age);
+  const [lang1, setLang1] = React.useState(20);
+  console.log(lang1);
+
+  const [lang2, setLang2] = React.useState(10);
+  console.log(lang2);
   // const inputLabel = React.useRef(null);
   // const [labelWidth, setLabelWidth] = React.useState(0);
   // React.useEffect(() => {
   //   setLabelWidth(inputLabel.current.offsetWidth);
   // }, []);
 
-  const handleChange = event => {
-    setAge(event.target.value);
+  const handleChange1 = event => {
+    setLang1(event.target.value);
+  };
+
+  const handleChange2 = event => {
+    setLang2(event.target.value);
   };
 
   return (
     <div>
       <FormControl className={classes.formControl}>
-        <InputLabel id="demo-simple-select-label">Age</InputLabel>
+        {/* <InputLabel id="demo-simple-select-label">Age</InputLabel> */}
         <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={age}
-          onChange={handleChange}
+          labelId="simple-select-label1"
+          id="simple-select2"
+          value={lang1}
+          onChange={handleChange1}
+        >
+          <ListItem value={10}>Ten</ListItem>
+          <ListItem value={20}>Twenty</ListItem>
+          <ListItem value={30}>Thirty</ListItem>
+        </Select>
+      </FormControl>
+      <FormControl className={classes.formControl}>
+        <Select
+          labelId="simple-select-label2"
+          id="simple-select2"
+          value={lang2}
+          onChange={handleChange2}
         >
           <MenuItem value={10}>Ten</MenuItem>
-          <MenuItem value={21}>Twenty-one</MenuItem>
+          <MenuItem value={20}>Twenty</MenuItem>
           <MenuItem value={30}>Thirty</MenuItem>
         </Select>
       </FormControl>

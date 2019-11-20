@@ -3,21 +3,28 @@ import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
 import Typography from '@material-ui/core/Typography';
-import Button from '@material-ui/core/Button';
-import IconButton from '@material-ui/core/IconButton';
+import { Button, IconButton, Select, FormControl} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
-import Auth from './auth';
+import {ListItem} from '@material-ui/core';
 
 const useStyles = makeStyles(theme => ({
     root: {
         flexGrow: 1,
     },
     menuButton: {
-        marginRight: theme.spacing(2),
+        marginRight: theme.spacing(1),
     },
     title: {
         flexGrow: 1,
     },
+    formControl: {
+        marginRight: theme.spacing(3),
+        minWidth: 120,
+    },
+    selectEmpty: {
+
+        marginTop: theme.spacing(2),
+　  },
 }));
 
 export default function ButtonAppBar() {
@@ -31,32 +38,56 @@ export default function ButtonAppBar() {
                         <MenuIcon></MenuIcon>
                     </IconButton>
                     <Typography variant="h6" className={classes.title}>
-                        News
+                        ☆Translation☆
                     </Typography>
-                    <Button onClick={this.onLogin} color="inherit">Login</Button>
+                    <SimpleSelect />
+                    <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
         </div>
     );
-    onLogin = e =>{
-        function loginPage() {
-            ruturn (
-                <auth />
-            );
-        }
-    };
 }
 
-// function Menus(){
-//     menus(props) {
-//         super(props);
-//         this.state = {
-//             menu1: "",
-//             menu2: ""
-//         }
-//     };
-//     onTextform1Change = e => {
-//         this.setState({menu1: e.target.value})
-//     };
+export function SimpleSelect() {
+    const classes = useStyles();
+    let [lang1, setLang1] = React.useState(10);
+    console.log(lang1);
+    const handleChange1 = event => {
+      setLang1(event.target.value);
+    };
 
-// }
+    const [lang2, setLang2] = React.useState(20);
+    console.log(lang2);
+    console.log(setLang2);
+    const handleChange2 = event => {
+      setLang2(event.target.value);
+    }
+    return (
+    <div>
+        <FormControl className={classes.formControl}>
+          <Select
+            labelId="simple-select-label1"
+            id="simple-select1"
+            value={lang1}
+            onChange={handleChange1}
+          >
+            <ListItem value={10}>日本語</ListItem>
+            <ListItem value={20}>English</ListItem>
+            <ListItem value={30}>Japanese2</ListItem>
+          </Select>
+        </FormControl>
+        <FormControl className={classes.formControl}>
+          <Select
+            labelId="simple-select-label2"
+            id="simple-select2"
+            value={lang2}
+            onChange={handleChange2}
+          >
+            <ListItem value={10}>日本語</ListItem>
+            <ListItem value={20}>English</ListItem>
+            <ListItem value={30}>Japanese2</ListItem>
+          </Select>
+        </FormControl>
+    </div>
+    );
+}
