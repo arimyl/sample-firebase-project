@@ -33,7 +33,7 @@ class AuthTry extends React.Component {
                     position: relative;
                 `}>
                     <div>
-                        <TextFileld label='E-mail' type='text' name='email' onChange={e =>this.setState({email: e.target.value})} />
+                        <TextField label='E-mail' type='text' name='email' onChange={e =>this.setState({email: e.target.value})} />
                         <TextField label='Password' type='Password' name='Password' onChange={e => this.setState({Password: e.target.value})} />
                     </div>
                     <Button onClick={this.signin}>サインイン</Button>
@@ -81,10 +81,34 @@ class AuthTry extends React.Component {
             this.unsubscribe();
           }
     }
-
 }
 
-export default class Try1 extends React.Component {
+const Page = ({ theme }) => {
+
+    return (
+    <div>
+        <Try1 />
+      <React.Fragment>
+        {/* <Head>
+        </Head> */}
+        <main>
+          <div css={css`
+            margin: 0 auto;
+            max-width: ${breakpoints.lg.maxWidth};
+          `}>
+            <div css={css`
+              padding: 32px;
+            `}>
+              <AuthTry><h1>サインイン済みの画面</h1></AuthTry>
+            </div>
+          </div>
+        </main>
+      </React.Fragment>
+    </div>
+    );
+  };
+
+export  class Try1 extends React.Component {
 
     render () {
         return (
@@ -116,33 +140,7 @@ export default class Try1 extends React.Component {
                 `}>
                     <Button variant="contained" color="secondary">送信</Button>
                 </div>       
-                {/* <div css={css`
-                    background-color: yellow;
-                    width: 500px;
-                    height: 500px;
-                    // text-align: center;
-                    position: relative;
-                    // position: sticky;
-                    // top:0;
-                `}>
-                    <div css={css`
-                        // display: inline;
-                        background-color: blue;
-                        width: 100px;
-                        height: 100px;
-
-                        position: absolute;
-                        top: 50%;
-                        left: 50%;
-
-                        transform: translate(-10px, -10px);
-                        transform: translate(-50%, -50%);
-
-                        // margin: 0 auto;
-                    `}>aaaa</div>
                 </div>
-                */}
-            </div>
             </div>    
         );
     }
@@ -166,5 +164,8 @@ export default class Try1 extends React.Component {
         console.log(this.state.textform1);
     }
 }
+export default page(withTheme(Page));
+    
+    
 
 // export default () => (<div>aaa</div>);
