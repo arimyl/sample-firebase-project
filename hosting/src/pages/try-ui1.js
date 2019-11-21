@@ -14,6 +14,7 @@ import { navigate } from "gatsby";
 import { CircularProgress } from '@material-ui/core';
 import { TextField, Button } from '@material-ui/core';
 
+
 const db = firebase.firestore();
 
 class AuthTry extends React.Component {
@@ -82,6 +83,20 @@ class AuthTry extends React.Component {
           }
     }
 }
+
+// class App extends React.Component {
+//     constructor(props) {
+//         super(props) {
+//             this.state = {
+
+//             }
+//         }
+//     }
+//     this.toggleTheme = () => {
+
+//     }
+// }
+
 
 const Page = ({ theme }) => {
 
