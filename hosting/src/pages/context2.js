@@ -14,10 +14,12 @@ const withUser = Component => {
   };
 };
 
-const Title = withUser(({ user }) => (<h1 >{user.signIn ? 'サインイン済み' : 'サインインしてください'}</h1>));
 
-const SigninButton = withUser(({ user }) => (<Button variant='contained' onClick={() => user.updateValue({ signIn: !user.signIn })}>サインイン</Button>));
 
+
+const TitleInner = ({ user }) => (<h1 >{user.signIn ? 'サインイン済み' : 'サインインしてください'}</h1>);
+
+const Title = withUser(TitleInner);
 
 function Toolbar() {
   return (
@@ -26,6 +28,25 @@ function Toolbar() {
     </div>
   );
 }
+
+
+
+
+const withXxx = Component => {
+  return () => {
+    return (
+      <Component user={{
+        signIn: true,
+        updateValue: obj => console.log(obj.signIn),
+      }}/>
+    );
+  };
+};
+
+const SignInInner = ({ user }) => (<Button variant='contained' onClick={() => user.updateValue({ signIn: !user.signIn })}>サインイン</Button>);
+
+const SigninButton = withUser(SignInInner);
+const SigninXxx = withXxx(SignInInner);
 
 export default class Parent extends React.Component {
 
@@ -41,6 +62,11 @@ export default class Parent extends React.Component {
       }}>
         <Toolbar />
         <Title aaa='aaa' />
+        <SignInInner user={{
+          signIn: true,
+          updateValue: obj => console.log('hello'),
+        }} />
+        <SigninXxx />
       </UserContext.Provider>
     );
   }
