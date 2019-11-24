@@ -18,6 +18,7 @@ const useStyles = makeStyles(theme => ({
         flexGrow: 1,
     },
     formControl: {
+        position: "static",
         marginRight: theme.spacing(3),
         minWidth: 120,
     },
