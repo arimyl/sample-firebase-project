@@ -6,7 +6,7 @@ import { withTheme } from '@material-ui/styles';
 import { css } from "@emotion/core";
 import axios from "axios";
 // const axios = require("axios");
-
+import ChatSample from "./firestore";
 
 const Sample = ({ message }) => {
   return (
@@ -15,7 +15,12 @@ const Sample = ({ message }) => {
     </div>
   );
 };
-
+class Chat {
+    reuturn () {
+    <ChatSample/>
+  }
+  
+}
 
 class FormSample extends React.Component {
   render() {
@@ -115,5 +120,7 @@ const Page = ({ theme }) => {
     </React.Fragment>
   );
 };
+
+
 
 export default page(withTheme(Page));

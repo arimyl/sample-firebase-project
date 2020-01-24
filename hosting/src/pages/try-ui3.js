@@ -16,17 +16,23 @@ const useStyles = makeStyles(theme =>({
 }));
 
 const UserContext = React.createContext({
-  language1: '10',
-  language2: '20'
+  language: '10',
+  language1: '日本語',
+  language2: 'ENGLISH'
 });
 
 export function SelectLang () {
+  const context = React.useContext(UserContext);
+
   const classes = useStyles();
-  let [Lang, setLang] = React.useState(10);
+  // let [Lang, setLang] = React.useState('日本語');
+  // const handleChange = event => (
+  //   setLang(event.target.value)
+  // );
+  // console.log(Lang, setLang);
   const handleChange = event => (
-    setLang(event.target.value)
+    React.useState(event.target.value)
   );
-  console.log(Lang, setLang);
 
   return (
     <div css={css`
@@ -38,11 +44,11 @@ export function SelectLang () {
         <Select
         labelId = "select-label"
         id = "select-label"
-        value = {Lang}
+        value = {context.language}
         onChange = {handleChange}
         >
-          <ListItem value={10}>日本語</ListItem>
-          <ListItem value={20}>English</ListItem>
+          <ListItem value={'日本語'} >日本語</ListItem>
+          <ListItem value={'ENGLISH'} >English</ListItem>
         </Select>
       </FormControl>
     </div>
