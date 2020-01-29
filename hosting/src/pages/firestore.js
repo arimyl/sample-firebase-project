@@ -102,33 +102,45 @@ export const ChatSample = () => {
   const [message, setMessage] = React.useState("");
   const [name, setName] = React.useState("");
   const [messages, setMessages] = React.useState([]);
-  const [time, setTime] = React.useState("-"+Date.now);
+  const [date, setDate] = React.useState("");
+  const [time, setTime] = React.useState("");
+
 
   React.useEffect(() => db.collection("messages")
     // .where("from", "==", "1")
     // .where("to", "==", "2")
+    // .orderBy("name")
+    .where("date", ">=", Intl.DateTimeFormat('en-US').format(Date.now()))
+    // .orderBy("time")
     .limit(10)
     .onSnapshot(snapshot => setMessages(snapshot.docs)), []);
-
+ 
   const send = async () => {
     try {
+      const newDate = Date.now();
+      //setTime(time+1);
+      setDate(Intl.DateTimeFormat('en-US').format(newDate));
+      setTime(Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(newDate));
       await db.collection("messages").add({
         from: name,
         message,
+        date,
         time,
       });
+      console.log(name,message,date,time);
     } catch (e) {
       console.log(e);
       // pass
     }
   };
+  
 
   return (
     <div>
       <div>{messages.map((doc, index) => {
         const id = doc.id;
         const data = doc.data();
-
+        
         return (
           <div key={id} css={css`
             margin-bottom: 16px;
@@ -142,7 +154,7 @@ export const ChatSample = () => {
             <span>{data.message}</span>
             <span css={css`
                 font-size: 70%;
-            `}>{data.time}</span>
+            `}>{"-"+data.date+" "+data.time}</span>
           </div>
         );
       })}</div>
@@ -156,8 +168,7 @@ export const ChatSample = () => {
       `}>
         <TextField variant='outlined' label='名前' type='text' value={name} onChange={e => setName(e.target.value)} />
         <TextField variant='outlined' label='メッセージを入力' type='text' value={message} onChange={e => setMessage(e.target.value)} />
-        <label onChange={e => this.setState({time: e.Date.now()})} />
-        <Button variant='contained' color='secondary' onClick={send}>送信</Button>
+        <Button variant='contained' color='secondary'  onClick={send}>送信</Button>
       </div>
     </div>
   );
