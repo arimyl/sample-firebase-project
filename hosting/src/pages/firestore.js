@@ -7,127 +7,141 @@ import { withTheme } from '@material-ui/styles';
 
 import { Router } from "@reach/router";
 import firebase from 'common/firebase';
+import moment from 'moment';
+import axios from 'axios';
 import NoSSR from 'components/NoSSR';
 import { TextField, Button } from '@material-ui/core';
 
 const db = firebase.firestore();
 
 
-class ChatSample2 extends React.Component {
-  render() {
+// class ChatSample2 extends React.Component {
+//   render() {
 
-    const { state, props } = this;
+//     const { state, props } = this;
 
-    console.log(state.messages)
+//     console.log(state.messages)
 
-    return (
-      <div>
-        <div>{state.messages.map((doc, index) => {
-          const id = doc.id;
-          const data = doc.data();
+//     return (
+//       <div>
+//         <div>{state.messages.map((doc, index) => {
+//           const id = doc.id;
+//           const data = doc.data();
 
-          return (
-            <div key={id} css={css`
-              margin-bottom: 16px;
-            `}>
-              <span css={css`
-                background-color: #eee;
-                margin-right: 8px;
-                padding: 4px 8px;
-                border-radius: 4px;
-              `}>{data.from}</span>
-              <span>{data.message}</span>
-            </div>
-          );
-        })}</div>
+//           return (
+//             <div key={id} css={css`
+//               margin-bottom: 16px;
+//             `}>
+//               <span css={css`
+//                 background-color: #eee;
+//                 margin-right: 8px;
+//                 padding: 4px 8px;
+//                 border-radius: 4px;
+//               `}>{data.from}</span>
+//               <span>{data.message}</span>
+//             </div>
+//           );
+//         })}</div>
 
-        <div css={css`
-          margin-top: 16px;
-          &>* {
-            vertical-align: middle;
-            margin-left: 16px;
-          }
-        `}>
-          <TextField variant='outlined' label='名前' type='text' name='name' onChange={e => this.setState({name: e.target.value})} />
-          <TextField variant='outlined' label='メッセージを入力' type='text' name='message' onChange={e => this.setState({message: e.target.value})} />
+//         <div css={css`
+//           margin-top: 16px;
+//           &>* {
+//             vertical-align: middle;
+//             margin-left: 16px;
+//           }
+//         `}>
+//           <TextField variant='outlined' label='名前' type='text' name='name' onChange={e => this.setState({name: e.target.value})} />
+//           <TextField variant='outlined' label='メッセージを入力' type='text' name='message' onChange={e => this.setState({message: e.target.value})} />
           
-          <Button variant='contained' color='secondary' onClick={this.send}>送信</Button>
-        </div>
-      </div>
-    );
-  }
+//           <Button variant='contained' color='secondary' onClick={this.send}>送信</Button>
+//         </div>
+//       </div>
+//     );
+//   }
 
-  state = {
-    messages: [],
-    user: null,
-    name: '',
-    time: null,
-  };
+//   state = {
+//     messages: [],
+//     user: null,
+//     name: '',
+//     time: null,
+//   };
 
-  unsubscribe = null;
+//   unsubscribe = null;
 
-  send = async () => {
-    const { state } = this;
+//   send = async () => {
+//     const { state } = this;
 
-    try {
-      await db.collection("messages").add({
-        from: state.name,
-        // to: '2',
-        message: state.message,
-        time: state.time,
-      });
-    } catch (e) {
-      console.log(e);
-      // pass
-    }
-  }
+//     try {
+//       await db.collection("messages").add({
+//         from: state.name,
+//         // to: '2',
+//         message: state.message,
+//         time: state.time,
+//       });
+//     } catch (e) {
+//       console.log(e);
+//       // pass
+//     }
+//   }
 
-  async componentDidMount() {
-    this.unsubscribe = db.collection("messages")
-      // .where("from", "==", "1")
-      // .where("to", "==", "2")
-      .limit(10)
-      .onSnapshot(snapshot => this.setState({ messages: snapshot.docs }));
-  }
+//   async componentDidMount() {
+//     this.unsubscribe = db.collection("messages")
+//       // .where("from", "==", "1")
+//       // .where("to", "==", "2")
+//       .limit(10)
+//       .onSnapshot(snapshot => this.setState({ messages: snapshot.docs }));
+//   }
 
-  async componentWillUnmount() {
-    if (this.unsubscribe) {
-      this.unsubscribe();
-    }
-  }
-}
+//   async componentWillUnmount() {
+//     if (this.unsubscribe) {
+//       this.unsubscribe();
+//     }
+//   }
+// }
 
 export const ChatSample = () => {
 
   const [message, setMessage] = React.useState("");
   const [name, setName] = React.useState("");
   const [messages, setMessages] = React.useState([]);
-  const [date, setDate] = React.useState("");
-  const [time, setTime] = React.useState("");
 
 
-  React.useEffect(() => db.collection("messages")
-    // .where("from", "==", "1")
-    // .where("to", "==", "2")
-    // .orderBy("name")
-    .where("date", ">=", Intl.DateTimeFormat('en-US').format(Date.now()))
-    // .orderBy("time")
-    .limit(10)
-    .onSnapshot(snapshot => setMessages(snapshot.docs)), []);
- 
+  React.useEffect(() => {
+    const t = new Date();
+    const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+
+    return db.collection("messages")
+      // .where("from", "==", "1")
+      // .where("to", "==", "2")
+      // .orderBy("name")
+      .where("createdAt", ">=", today)
+      .orderBy("createdAt", "desc")
+      .limit(10)
+      .onSnapshot(snapshot => setMessages(snapshot.docs));
+    }, []);
+  
+  // const timeStamp=() => {
+  //   const newDate = Date.now();
+  //   setDate(Intl.DateTimeFormat('en-US').format(newDate));
+  //   setTime(Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(newDate));   
+  // }
+
   const send = async () => {
     try {
-      const newDate = Date.now();
-      //setTime(time+1);
-      setDate(Intl.DateTimeFormat('en-US').format(newDate));
-      setTime(Intl.DateTimeFormat('en-US', {hour: '2-digit', minute: '2-digit', second: '2-digit'}).format(newDate));
+      const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
+        params: {
+          text: message
+        }
+      });
+
       await db.collection("messages").add({
         from: name,
         message,
-        date,
-        time,
+        translated: data.translated,
+        createdAt: new Date(),
+        // date,
+        // time,
       });
-      console.log(name,message,date,time);
     } catch (e) {
       console.log(e);
       // pass
@@ -151,10 +165,10 @@ export const ChatSample = () => {
               padding: 4px 8px;
               border-radius: 4px;
             `}>{data.from}</span>
-            <span>{data.message}</span>
+            <span>{data.translated || data.message}</span>
             <span css={css`
                 font-size: 70%;
-            `}>{"-"+data.date+" "+data.time}</span>
+            `}>{moment(data.createdAt.toDate()).fromNow()}</span>
           </div>
         );
       })}</div>

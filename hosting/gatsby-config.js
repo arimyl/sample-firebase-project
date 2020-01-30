@@ -18,6 +18,12 @@ module.exports = {
         // shared: path.join(__dirname, 'shared'),
       }
     },
+    {
+      resolve: `gatsby-plugin-env-variables`,
+      options: {
+        whitelist: ["TRANSLATE_API_ENDPOINT"]
+      },
+    },
     `gatsby-plugin-react-helmet`,
     // {
     //   resolve: `gatsby-source-filesystem`,
