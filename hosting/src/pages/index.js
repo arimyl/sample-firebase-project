@@ -16,12 +16,7 @@ const Sample = ({ message }) => {
     </div>
   );
 };
-class Chat {
-    reuturn () {
-    <ChatSample/>
-  }
-  
-}
+
 
 // class FormSample extends React.Component {
 //   render() {
@@ -115,7 +110,7 @@ const Page = ({ theme }) => {
         <Hello><span>Hello</span></Hello>
         <HelloState title='Count up sample' />
 
-
+        <ChatSample />
         {/* <FormSample /> */}
         {/* <Try /> */}
       </main>

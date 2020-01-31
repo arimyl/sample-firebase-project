@@ -13,7 +13,7 @@ import NoSSR from 'components/NoSSR';
 import { navigate } from "gatsby";
 import { CircularProgress } from '@material-ui/core';
 import { TextField, Button } from '@material-ui/core';
-
+import { ChatSample } from './firestore';
 
 const db = firebase.firestore();
 
@@ -103,7 +103,7 @@ const Page = ({ theme }) => {
     return (
     <div>
         <Try1 />
-      <React.Fragment>
+        <React.Fragment>
         {/* <Head>
         </Head> */}
         <main>
@@ -118,67 +118,93 @@ const Page = ({ theme }) => {
             </div>
           </div>
         </main>
-      </React.Fragment>
+        </React.Fragment>
     </div>
     );
   };
 
-export  class Try1 extends React.Component {
-
+export class Try1 extends React.Component {
     render () {
         return (
-            <div>
-                <Bar />    
+            <React.Fragment>
                 <div css={css`
-                padding: 16px 8px;
+                    position: static;
+                    absolute;
+                    top: 1000;
+                    left: 30;
                 `}>
-                <div css={css`
-                    display: flex;
-                `}>
-                    <div css={css`
-                        width: 100%;
-                        margin: 0 8px;
-                    `}>
-                        <TextField fullWidth variant="outlined" label={Bar.SimpleSelect} value={this.state.textform1} onChange={this.onTextform1Change} />
-                    </div>
-                    <div css={css`
-                        width: 100%;
-                        margin: 0 8px;
-                    `}>
-                        <TextField fullWidth variant="outlined" label="textform2" value={this.state.textform2} onChange={this.onTextform2Change} />
-                    </div>     
+                    <Bar />
                 </div>
                 <div css={css`
-                    width: 100%;
-                    text-align: right;
-                    padding: 16px 16px 0 0;
+                    position: static;
+                    absolute;
+                    padding: 30px 0px 0px 30px;
                 `}>
-                    <Button variant="contained" color="secondary">送信</Button>
-                </div>       
+                <ChatSample />
                 </div>
-            </div>    
+                
+                
+            </React.Fragment>
         );
     }
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            textform1: "textform1",
-            textform2: "textform2"
-        };
-    }
-    
-    onTextform1Change = e => {
-        this.setState({textform1: e.target.value})
-    }
-    onTextform2Change = e => {
-        this.setState({textform2: e.target.value})
-    }
-
-    translate = async() => {
-        console.log(this.state.textform1);
-    }
 }
+
+// export  class Try2 extends React.Component {
+
+//     render () {
+//         return (
+//             <div>
+//                 <Bar />    
+//                 <div css={css`
+//                 padding: 16px 8px;
+//                 `}>
+//                 <div css={css`
+//                     display: flex;
+//                 `}>
+//                     <div css={css`
+//                         width: 100%;
+//                         margin: 0 8px;
+//                     `}>
+//                         <TextField fullWidth variant="outlined" label={Bar.SimpleSelect} value={this.state.textform1} onChange={this.onTextform1Change} />
+//                     </div>
+//                     <div css={css`
+//                         width: 100%;
+//                         margin: 0 8px;
+//                     `}>
+//                         <TextField fullWidth variant="outlined" label="textform2" value={this.state.textform2} onChange={this.onTextform2Change} />
+//                     </div>     
+//                 </div>
+//                 <div css={css`
+//                     width: 100%;
+//                     text-align: right;
+//                     padding: 16px 16px 0 0;
+//                 `}>
+//                     <Button variant="contained" color="secondary">送信</Button>
+//                 </div>       
+//                 </div>
+//             </div>    
+//         );
+//     }
+
+//     constructor(props) {
+//         super(props);
+//         this.state = {
+//             textform1: "textform1",
+//             textform2: "textform2"
+//         };
+//     }
+    
+//     onTextform1Change = e => {
+//         this.setState({textform1: e.target.value})
+//     }
+//     onTextform2Change = e => {
+//         this.setState({textform2: e.target.value})
+//     }
+
+//     translate = async() => {
+//         console.log(this.state.textform1);
+//     }
+// }
 export default page(withTheme(Page));
     
     

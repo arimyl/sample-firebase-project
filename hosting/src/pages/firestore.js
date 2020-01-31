@@ -105,7 +105,6 @@ export const ChatSample = () => {
   const [name, setName] = React.useState("");
   const [messages, setMessages] = React.useState([]);
 
-
   React.useEffect(() => {
     const t = new Date();
     const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
