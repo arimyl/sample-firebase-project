@@ -14,13 +14,13 @@ import { TextField, Button } from '@material-ui/core';
 
 const db = firebase.firestore();
 
-
 class AuthSample extends React.Component {
   render() {
 
     const { state, props } = this;
 
     if (state.user) {
+    // if (null) {
       return (
         <div>
           <Button onClick={this.signout}>サインアウト</Button>
@@ -54,22 +54,41 @@ class AuthSample extends React.Component {
 
   signin = async () => {
     const { state } = this;
-    console.log(state);
+    console.log(emali,password,state.emali,state.password, state.user);
     try {
-      await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
+      await firebase.auth().signInWithEmailAndPassword(state.email, state.password)
+        // await db.collection("account")
+        // .where("email","==",state.email)
+        // .get()
+        // .then(doc => {
+        //   if(!doc.exists) {
+        //     console.log("No such document!")
+        //   }else{
+        //     console.log("Document data:", doc.data());
+        //     state.user = doc.data("userName");
+        
+        
+        // .onSnapshot(querySnapshot => {
+        //   const user = querySnapshot.userName;
+      
+      // console.log(state.user); 
+      //   const unsub = db.collection("account").onSnapshot(() => {});
+      //   unsub();
+        
     } catch (e) {
       console.log(e);
-      // pass
+      // email: ary pass: abcde
     }
   }
 
   signout = async () => {
-    console.log(user);
+    console.log(state.user);
     try {
       console.log("sign out");
       await firebase.auth().signOut();
     } catch (e) {
       console.log(e);
+      state.user=null;
       // pass
     }
   }
