@@ -14,13 +14,13 @@ import { TextField, Button } from '@material-ui/core';
 
 const db = firebase.firestore();
 
+
 class AuthSample extends React.Component {
   render() {
 
     const { state, props } = this;
 
     if (state.user) {
-    // if (null) {
       return (
         <div>
           <Button onClick={this.signout}>サインアウト</Button>
@@ -38,7 +38,7 @@ class AuthSample extends React.Component {
           <div>
             <TextField label='Password' type='password' name='password' onChange={e => this.setState({password: e.target.value})} />
           </div>
-          <Button onClick={this.signin}>サインイン</Button>
+          <Button onClick={this.signin}>サインイン済み</Button>
         </div>
       );
     }
@@ -54,41 +54,23 @@ class AuthSample extends React.Component {
 
   signin = async () => {
     const { state } = this;
+    console.log("sighn in");
+    console.log(state);
     try {
-      console.log("log in");
-      console.log(email);
       await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
-        // await db.collection("account")
-        // .where("email","==",state.email)
-        // .get()
-        // .then(doc => {
-        //   if(!doc.exists) {
-        //     console.log("No such document!")
-        //   }else{
-        //     console.log("Document data:", doc.data());
-        //     state.user = doc.data("userName");
-        
-        
-        // .onSnapshot(querySnapshot => {
-        //   const user = querySnapshot.userName;
-      
-      // console.log(state.user); 
-      //   const unsub = db.collection("account").onSnapshot(() => {});
-      // unsub();
-        
     } catch (e) {
-      console.log(e);
-      // email: ary pass: abcde
+      // pass
     }
   }
 
   signout = async () => {
+    const {state} = this;
+    console.log("sighn out");
+    console.log(state.user);
+    console.log(state);
     try {
-      console.log("1"+email);
-      console.log("sign out");
       await firebase.auth().signOut();
     } catch (e) {
-      console.log(e);
       // pass
     }
   }

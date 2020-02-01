@@ -6,7 +6,48 @@ import { withTheme } from '@material-ui/styles';
 import firebase from 'common/firebase';
 import { TextField, Button } from '@material-ui/core';
 
+const userRegist = () => {
+  const [num,setNum ] = setState(null);
+  const [userName,setUserName ] = setState("");
+  const [nicName,setNicName ] = setState("");
 
+  React.useEffect(() => {
+    const t = new Date();
+    const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+
+    return db.collection("account")
+      // .where("from", "==", "1")
+      // .where("to", "==", "2")
+      // .orderBy("name")
+      .where("createdAt", ">=", today)
+      .orderBy("createdAt", "desc")
+      .limit(10)
+      .onSnapshot(snapshot => setMessages(snapshot.docs));
+    }, []);
+  
+    const send = async () => {
+      try {
+        const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
+          params: {
+            text: message
+          }
+        });
+  
+        await db.collection("messages").add({
+          from: name,
+          message,
+          translated: data.translated,
+          createdAt: new Date(),
+          // date,
+          // time,
+        });
+      } catch (e) {
+        console.log(e);
+        // pass
+      }
+  
+
+}
 
 
 class AuthRegist extends React.Component {
@@ -15,12 +56,12 @@ class AuthRegist extends React.Component {
     
     const { state, props } = this;
   
-  const registUser = firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
+    const registUser = firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
       // Handle Errors here.
       var errorCode = error.code;
       var errorMessage = error.message;
       // ...
-  });
+    });
     // if (state.user) {
     // if (null) {
     //   return (
@@ -56,7 +97,7 @@ class AuthRegist extends React.Component {
     password: '',
     user: null,
   };
-
+  
   unsubscribe = null;
 
   // signin = async () => {
