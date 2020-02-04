@@ -23,10 +23,10 @@ const userRegist = () => {
       .orderBy("createdAt", "desc")
       .limit(10)
       .onSnapshot(snapshot => setMessages(snapshot.docs));
-    }, []);
+  }, []);
   
-    const send = async () => {
-      try {
+  const send = async () => {
+    try {
         const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
           params: {
             text: message
@@ -41,13 +41,13 @@ const userRegist = () => {
           // date,
           // time,
         });
-      } catch (e) {
-        console.log(e);
-        // pass
-      }
-  
+    } catch (e) {
+      console.log(e);
+      // pass
+    }
+  }
 
-}
+};
 
 
 class AuthRegist extends React.Component {
