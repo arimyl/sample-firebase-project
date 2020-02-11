@@ -23,11 +23,30 @@ class AuthTry extends React.Component {
 
         if (state.user) {
             return (
+            <div>
                 <div>
-                    <Button onClick={this.signout}>サインアウト</Button>
-                    <div>{props.children}</div>
+                    <Try1 />
+                    <React.Fragment>
+                    {/* <Head>
+                    </Head> */}
+                    <main>
+                    <div css={css`
+                        margin: 0 auto;
+                        max-width: ${breakpoints.lg.maxWidth};
+                    `}>
+                    </div>
+                    </main>
+                    </React.Fragment>
                 </div>
+                <div>
+                    <Button css={css`
+                        margin-top: 32px;
+                        background-color: grey;
+                    `} onClick={this.signout}>サインアウト</Button>
+                </div>
+            </div>
             );
+            
         } else {
             return (
                 <div css={css`
@@ -35,9 +54,13 @@ class AuthTry extends React.Component {
                 `}>
                     <div>
                         <TextField label='E-mail' type='text' name='email' onChange={e =>this.setState({email: e.target.value})} />
-                        <TextField label='Password' type='Password' name='Password' onChange={e => this.setState({Password: e.target.value})} />
+                        <label>　</label>
+                        <TextField label='Password' type='Password' name='Password' onChange={e => this.setState({password: e.target.value})} />
                     </div>
-                    <Button onClick={this.signin}>サインイン</Button>
+                    <Button css={css`
+                        margin-top: 32px;
+                        background-color: grey;
+                    `} onClick={this.signin}>サインイン</Button>
                 </div>
             );
         }
@@ -45,22 +68,26 @@ class AuthTry extends React.Component {
 
     state = {
         email: '',
-        Password: '',
+        password: '',
         user: null,
+        notice: '',
     };
     
     unsubscribe = null;
 
     signin = async () =>{
         const {state} = this;
-
+        console.log("log in");
         try{
             await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
         } catch (e){
             console.log(e);
+            this.notice = "間違えてます。";
+            console.log(this.notice);
         }
     }
     signout = async () =>{
+        console.log("sign out");
         try {
             await firebase.auth().signOut();
         } catch (e) {
@@ -102,7 +129,7 @@ const Page = ({ theme }) => {
 
     return (
     <div>
-        <Try1 />
+        <Bar />
         <React.Fragment>
         {/* <Head>
         </Head> */}
@@ -121,7 +148,7 @@ const Page = ({ theme }) => {
         </React.Fragment>
     </div>
     );
-  };
+};
 
 export class Try1 extends React.Component {
     render () {
@@ -133,7 +160,7 @@ export class Try1 extends React.Component {
                     top: 1000;
                     left: 30;
                 `}>
-                    <Bar />
+                    {/* <Bar /> */}
                 </div>
                 <div css={css`
                     margin: 32px auto 0 auto;

@@ -56,7 +56,8 @@ class AuthSample extends React.Component {
     const { state } = this;
     try {
       console.log("log in");
-      console.log(email);
+      console.log(state.email);
+      console.log(state.password);
       await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
         // await db.collection("account")
         // .where("email","==",state.email)
@@ -84,7 +85,6 @@ class AuthSample extends React.Component {
 
   signout = async () => {
     try {
-      console.log("1"+email);
       console.log("sign out");
       await firebase.auth().signOut();
     } catch (e) {

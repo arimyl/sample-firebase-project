@@ -147,8 +147,8 @@ export const ChatSample = () => {
       // pass
     }
   };
-
-  const speach = async message => {
+  //text-to-speach
+  const speech = async message => {
     try {
       var msg = new SpeechSynthesisUtterance();
       // var voices = window.speechSynthesis.getVoices();
@@ -158,7 +158,8 @@ export const ChatSample = () => {
       // msg.rate = 1; // 0.1 to 10
       // msg.pitch = 0; //0 to 2
       msg.text = message;
-      msg.lang = 'en-US';
+      // msg.lang = 'en-US';
+      msg.lang = 'jp-JP';
 
       msg.onend = function(e) {
         console.log('Finished in ' + event.elapsedTime + ' seconds.');
@@ -179,29 +180,30 @@ export const ChatSample = () => {
         
         return (
           <div key={id} css={css`
-            margin-bottom: 32px;
+            margin-bottom: 16px;
           `}>
             <span css={css`
               background-color: #eee;
               margin-right: 8px;
-              padding: 4px 8px;
-              border-radius: 4px;
+              padding: 2px 8px;
+              border-radius: 2px;
             `}>{data.from}</span>
             <span>{data.translated || data.message}</span>
             <span css={css`
                 font-size: 70%;
             `}>{moment(data.createdAt.toDate()).fromNow()}</span>
             <Button css={css`
+                margin-left: 8px;
                 padding: 4px 8px;
                 font-size: 70%;
-            `} variant='contained' onClick={() => speach(data.translated)}>Speach!!
+            `} variant='contained' onClick={() => speech(data.translated)}>Speech!!
             </Button>
           </div>
         );
       })}</div>
 
       <div css={css`
-        margin-top: 16px;
+        margin-top: 8px;
         &>* {
           vertical-align: middle;
           margin-left: 16px;
@@ -209,7 +211,9 @@ export const ChatSample = () => {
       `}>
         <TextField variant='outlined' label='名前' type='text' value={name} onChange={e => setName(e.target.value)} />
         <TextField variant='outlined' label='メッセージを入力' type='text' value={message} onChange={e => setMessage(e.target.value)} />
-        <Button variant='contained' color='secondary'  onClick={send}>送信</Button>
+        <Button css={css`
+          margin-top: 18px;
+        `} variant='contained' color='secondary'  onClick={send}>送信</Button>
       </div>
     </div>
   );
