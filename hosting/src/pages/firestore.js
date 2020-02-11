@@ -127,6 +127,7 @@ export const ChatSample = () => {
 
   const send = async () => {
     try {
+      // const { data } = await axios.get(process.env.GOOGLE_APPLICATION_CREDENTIALS, {
       const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
         params: {
           text: message
