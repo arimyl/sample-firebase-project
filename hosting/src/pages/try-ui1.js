@@ -136,9 +136,11 @@ export class Try1 extends React.Component {
                     <Bar />
                 </div>
                 <div css={css`
-                    position: static;
-                    absolute;
-                    padding: 30px 0px 0px 30px;
+                    margin: 32px auto 0 auto;
+                    // margin-top: 32px;
+                    max-width: 800px;
+                    // position: static;
+                    // padding: 30px 0px 0px 30px;
                 `}>
                 <ChatSample />
                 </div>

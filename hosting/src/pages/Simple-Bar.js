@@ -6,6 +6,7 @@ import Typography from '@material-ui/core/Typography';
 import { Button, IconButton, Select, FormControl} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import {ListItem} from '@material-ui/core';
+import { css } from "@emotion/core";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -41,7 +42,9 @@ export default function ButtonAppBar() {
                     <Typography variant="h6" className={classes.title}>
                         ☆Translation☆
                     </Typography>
-                    <SimpleSelect />
+                    <SimpleSelect css={css`
+                      background-color: none;
+                    `} />
                     <Button color="inherit">Login</Button>
                 </Toolbar>
             </AppBar>
@@ -49,7 +52,10 @@ export default function ButtonAppBar() {
     );
 }
 
-export function SimpleSelect() {
+export function SimpleSelect({className}) {
+  // console.log("AAAAAAAAAAAAAA");
+  // console.log(css);
+  // console.log("AAAAAAAAAAAAAA");
     const classes = useStyles();
     let [lang1, setLang1] = React.useState(10);
     console.log(lang1);
@@ -64,7 +70,7 @@ export function SimpleSelect() {
       setLang2(event.target.value);
     }
     return (
-    <div>
+    <div className={className}>
         <FormControl className={classes.formControl}>
           <Select
             labelId="simple-select-label1"

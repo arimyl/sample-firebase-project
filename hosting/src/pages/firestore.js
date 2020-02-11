@@ -147,7 +147,29 @@ export const ChatSample = () => {
       // pass
     }
   };
-  
+
+  const speach = async message => {
+    try {
+      var msg = new SpeechSynthesisUtterance();
+      // var voices = window.speechSynthesis.getVoices();
+      // msg.voice = voices[2]; // Note: some voices don't support altering params
+      // msg.voiceURI = 'native';
+      // msg.volume = 1; // 0 to 1
+      // msg.rate = 1; // 0.1 to 10
+      // msg.pitch = 0; //0 to 2
+      msg.text = message;
+      msg.lang = 'en-US';
+
+      msg.onend = function(e) {
+        console.log('Finished in ' + event.elapsedTime + ' seconds.');
+      };
+
+      speechSynthesis.speak(msg);
+    } catch (e) {
+      console.log(e);
+      // pass
+    }
+  };
 
   return (
     <div>
@@ -157,7 +179,7 @@ export const ChatSample = () => {
         
         return (
           <div key={id} css={css`
-            margin-bottom: 16px;
+            margin-bottom: 32px;
           `}>
             <span css={css`
               background-color: #eee;
@@ -169,6 +191,11 @@ export const ChatSample = () => {
             <span css={css`
                 font-size: 70%;
             `}>{moment(data.createdAt.toDate()).fromNow()}</span>
+            <Button css={css`
+                padding: 4px 8px;
+                font-size: 70%;
+            `} variant='contained' onClick={() => speach(data.translated)}>Speach!!
+            </Button>
           </div>
         );
       })}</div>
