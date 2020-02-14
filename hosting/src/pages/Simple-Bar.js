@@ -7,6 +7,7 @@ import { Button, IconButton, Select, FormControl} from '@material-ui/core';
 import MenuIcon from '@material-ui/icons/Menu';
 import {ListItem} from '@material-ui/core';
 import { css } from "@emotion/core";
+import {Link} from "gatsby";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -39,7 +40,11 @@ export default function ButtonAppBar() {
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
                         <MenuIcon></MenuIcon>
                     </IconButton>
-                    <Typography variant="h6" className={classes.title}>
+                    <Typography css={css`
+                      &:hover {
+                        text-decoration: none;
+                      }
+                    `} component={Link} to="/" variant="h6" className={classes.title}>
                         ☆Translation☆
                     </Typography>
                     <SimpleSelect css={css`

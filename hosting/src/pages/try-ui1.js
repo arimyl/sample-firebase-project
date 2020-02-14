@@ -17,7 +17,7 @@ import { ChatSample } from './firestore';
 
 const db = firebase.firestore();
 
-class AuthTry extends React.Component {
+export class AuthTry extends React.Component {
     render() {
         const {state, props} = this;
 
@@ -150,7 +150,7 @@ const Page = ({ theme }) => {
     );
 };
 
-export class Try1 extends React.Component {
+class Try1 extends React.Component {
     render () {
         return (
             <React.Fragment>
