@@ -23,10 +23,10 @@ const userRegist = () => {
       .orderBy("createdAt", "desc")
       .limit(10)
       .onSnapshot(snapshot => setMessages(snapshot.docs));
-  }, []);
+    }, []);
   
-  const send = async () => {
-    try {
+    const send = async () => {
+      try {
         const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
           params: {
             text: message
@@ -41,36 +41,29 @@ const userRegist = () => {
           // date,
           // time,
         });
-    } catch (e) {
-      console.log(e);
-      // pass
+      } catch (e) {
+        console.log(e);
+        // pass
+      }
     }
-  }
 
-};
+}
 
 
-class AuthRegist extends React.Component {
-  
+export class AuthRegist extends React.Component {
   render() {
     
     const { state, props } = this;
   
-    const registUser = firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
-      // Handle Errors here.
-      var errorCode = error.code;
-      var errorMessage = error.message;
-      // ...
-    });
-    // if (state.user) {
+    if (state.user) {
     // if (null) {
-    //   return (
-    //     <div>
-    //       <Button onClick={this.signout}>サインアウト</Button>
-    //       <div>{props.children}</div>
-    //     </div>
-    //   );
-    // } else {
+      return (
+        <div>
+          <Button onClick={this.signout}>サインアウト</Button>
+          <div>{props.children}</div>
+        </div>
+      );
+    } else {
       return (
         <div css={css`
           position: relative;
@@ -82,14 +75,14 @@ class AuthRegist extends React.Component {
             <TextField label='Password' type='password' name='password' onChange={e => this.setState({password: e.target.value})} />
           </div>
           <Button css={css`
+            margin-top: 10px;
             background-color: blue; 
-            round:20%; 
+            round:30%; 
             color: white;
           `} onClick={this.registUser}>新規登録</Button>
-          {/* <Button onClick={this.signin}>サインイン</Button> */}
         </div>
       );
-    // }
+    }
   }
 
   state = {
@@ -97,50 +90,58 @@ class AuthRegist extends React.Component {
     password: '',
     user: null,
   };
-  
+
   unsubscribe = null;
+  
+  registUser = async () => {
+    const {state} = this;
+    try{
+      if (state.user==null) {
+        await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
+          // Handle Errors here.
+          var errorCode = error.code;
+          var errorMessage = error.message;
+          // ...
+        });
+        console.log("regist user!!");
+        console.log(state.email);
+        console.log(state.password);
+      }
+      await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
+      console.log("login!!");
+   } catch (e) {
+    console.log(e);
+   }
+  } 
 
-  // signin = async () => {
-  //   const { state } = this;
-  //   console.log(emali,password,state.emali,state.password, state.user);
-  //   try {
-  //     await firebase.auth().signInWithEmailAndPassword(state.email, state.password)
+  signout = async () => {
+    console.log(user);
+    try {
+      console.log("sign out");
+      await firebase.auth().signOut();
+    } catch (e) {
+      console.log(e);
+      user=null;
+      // pass
+    }
+  }
 
-  //   } catch (e) {
-  //     console.log(e);
-  //     // email: ary pass: abcde
-  //   }
-  // }
+  async componentDidMount() {
+    this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ user });
+      } else {
+        this.setState({ user: null });
+      }
+    });
+  }
 
-  // signout = async () => {
-  //   console.log(user);
-  //   try {
-  //     console.log("sign out");
-  //     await firebase.auth().signOut();
-  //   } catch (e) {
-  //     console.log(e);
-  //     user=null;
-  //     // pass
-  //   }
-  // }
-
-  // async componentDidMount() {
-  //   this.unsubscribe = firebase.auth().onAuthStateChanged((user) => {
-  //     if (user) {
-  //       this.setState({ user });
-  //     } else {
-  //       this.setState({ user: null });
-  //     }
-  //   });
-  // }
-
-  // async componentWillUnmount() {
-  //   if (this.unsubscribe) {
-  //     this.unsubscribe();
-  //   }
-  // }
+  async componentWillUnmount() {
+    if (this.unsubscribe) {
+      this.unsubscribe();
+    }
+  }
 }
-
 
 const Page = ({ theme }) => {
 
