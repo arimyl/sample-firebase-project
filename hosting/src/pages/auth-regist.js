@@ -6,48 +6,48 @@ import { withTheme } from '@material-ui/styles';
 import firebase from 'common/firebase';
 import { TextField, Button } from '@material-ui/core';
 
-const userRegist = () => {
-  const [num,setNum ] = setState(null);
-  const [userName,setUserName ] = setState("");
-  const [nicName,setNicName ] = setState("");
+// const userRegist = () => {
+//   const [num,setNum ] = setState(null);
+//   const [userName,setUserName ] = setState("");
+//   const [nicName,setNicName ] = setState("");
 
-  React.useEffect(() => {
-    const t = new Date();
-    const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
+//   React.useEffect(() => {
+//     const t = new Date();
+//     const today = new Date(t.getFullYear(), t.getMonth(), t.getDate());
 
-    return db.collection("account")
-      // .where("from", "==", "1")
-      // .where("to", "==", "2")
-      // .orderBy("name")
-      .where("createdAt", ">=", today)
-      .orderBy("createdAt", "desc")
-      .limit(10)
-      .onSnapshot(snapshot => setMessages(snapshot.docs));
-    }, []);
+//     return db.collection("account")
+//       // .where("from", "==", "1")
+//       // .where("to", "==", "2")
+//       // .orderBy("name")
+//       .where("createdAt", ">=", today)
+//       .orderBy("createdAt", "desc")
+//       .limit(10)
+//       .onSnapshot(snapshot => setMessages(snapshot.docs));
+//     }, []);
   
-    const send = async () => {
-      try {
-        const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
-          params: {
-            text: message
-          }
-        });
+//     const send = async () => {
+//       try {
+//         const { data } = await axios.get(process.env.TRANSLATE_API_ENDPOINT, {
+//           params: {
+//             text: message
+//           }
+//         });
   
-        await db.collection("messages").add({
-          from: name,
-          message,
-          translated: data.translated,
-          createdAt: new Date(),
-          // date,
-          // time,
-        });
-      } catch (e) {
-        console.log(e);
-        // pass
-      }
-    }
+//         await db.collection("messages").add({
+//           from: name,
+//           message,
+//           translated: data.translated,
+//           createdAt: new Date(),
+//           // date,
+//           // time,
+//         });
+//       } catch (e) {
+//         console.log(e);
+//         // pass
+//       }
+//     }
 
-}
+// }
 
 
 export class AuthRegist extends React.Component {
@@ -64,6 +64,7 @@ export class AuthRegist extends React.Component {
         </div>
       );
     } else {
+    // } else if(state.user==null && state.email && state.password) {
       return (
         <div css={css`
           position: relative;
@@ -97,31 +98,39 @@ export class AuthRegist extends React.Component {
     const {state} = this;
     try{
       if (state.user==null) {
+        // if(state.email=="*"+"@example.com"){
+
+        if(state.password.length<=5){
+          console.log("You can't regist user, because password length isn't correct. It need more 6 strings.");
+        }else
         await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
           // ...
-        });
-        console.log("regist user!!");
+        }
+        
+        );
+        console.log("regist!!");
         console.log(state.email);
         console.log(state.password);
+        // }
       }
-      await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
-      console.log("login!!");
-   } catch (e) {
+      // await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
+      // console.log("login!!");
+      
+    } catch (e) {
     console.log(e);
-   }
+    }
   } 
 
   signout = async () => {
-    console.log(user);
+    // console.log(state.user);
     try {
       console.log("sign out");
       await firebase.auth().signOut();
     } catch (e) {
       console.log(e);
-      user=null;
       // pass
     }
   }

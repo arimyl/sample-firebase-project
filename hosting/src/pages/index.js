@@ -37,7 +37,7 @@ const Page = ({ theme }) => {
           }
         `}>
           <Button component={Link} to="/login" size="large" variant="outlined">ログイン</Button>
-          <Button size="large" color="secondary" variant="contained">新規ユーザー登録</Button>
+          <Button component={Link} to="/auth-regist" size="large" color="secondary" variant="contained">新規ユーザー登録</Button>
         </p>
       </div>
         <img css={css`
