@@ -79,7 +79,6 @@ class AuthSample extends React.Component {
         
     } catch (e) {
       console.log(e);
-      // email: ary pass: abcdef
     }
   }
 

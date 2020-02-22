@@ -5,6 +5,7 @@ import breakpoints from 'common/breakpoints';
 import { withTheme } from '@material-ui/styles';
 import firebase from 'common/firebase';
 import { TextField, Button } from '@material-ui/core';
+import {Link} from "gatsby";
 
 // const userRegist = () => {
 //   const [num,setNum ] = setState(null);
@@ -61,6 +62,7 @@ export class AuthRegist extends React.Component {
         <div>
           <Button onClick={this.signout}>サインアウト</Button>
           <div>{props.children}</div>
+          <Button component={Link} to="/login" size="large" variant="outlined">翻訳トークへ</Button>
         </div>
       );
     } else {
@@ -116,8 +118,8 @@ export class AuthRegist extends React.Component {
         console.log(state.password);
         // }
       }
-      // await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
-      // console.log("login!!");
+      await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
+      console.log("login!!");
       
     } catch (e) {
     console.log(e);
