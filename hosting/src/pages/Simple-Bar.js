@@ -32,13 +32,29 @@ const useStyles = makeStyles(theme => ({
 
 export default function ButtonAppBar() {
     const classes = useStyles();
+    const NavMenuItem = ["HOME", "ABOUT", "BLOG", "INFOMATION"];
+
+    const NavMenuLinkTag = NavMenuItem.map((item) => {
+      let pageLink ="";
+      if (item === "HOME") {
+        pageLink = "/";
+      } else pageLink = "/" + item.toLowerCase() + "/";
+
+      return (
+        <li key={pageLink}>
+          <Link to={pageLink}>
+            {item}
+          </Link>
+        </li>
+      )
+    });
 
     return(
         <div className={classes.root}>
             <AppBar position="static">
                 <Toolbar>
                     <IconButton edge="start" className={classes.menuButton} color="inherit" aria-label="menu">
-                        <MenuIcon></MenuIcon>
+                        <MenuIcon>{NavMenuLinkTag}</MenuIcon>
                     </IconButton>
                     <Typography css={css`
                       &:hover {

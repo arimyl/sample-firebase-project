@@ -9,12 +9,21 @@ import ButtonAppBar from "./Simple-Bar";
 import { TextField, Button } from '@material-ui/core';
 
 
+
 const Page = ({ theme }) => {
+  // const { state, props } = this;
+  // const status = React.createContext({ state, props });
+
+  // state = {
+  //   email: '',
+  //   password: '',
+  //   user: null,
+  // };
 
   return (
     <React.Fragment>
       <header>
-        <ButtonAppBar />
+        <ButtonAppBar  />
       </header>
       <main css={css`
         max-width: 1000px;
