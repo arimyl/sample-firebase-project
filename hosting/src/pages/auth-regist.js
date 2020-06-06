@@ -83,6 +83,12 @@ export class AuthRegist extends React.Component {
             round:30%; 
             color: white;
           `} onClick={this.registUser}>新規登録</Button>
+          <div css={css`
+           position: relative;
+           font-size: 32px;
+           color: blue; 
+          `}
+          label='TextOutput' type='text' name='textOut' onChange={e => this.setState({textOut:e.target.value})}>{state.textOut}</div>
         </div>
       );
     }
@@ -92,35 +98,47 @@ export class AuthRegist extends React.Component {
     email: '',
     password: '',
     user: null,
+    textOut: 'Welcome to Hogen-translate.',
   };
 
   unsubscribe = null;
   
   registUser = async () => {
     const {state} = this;
+    var checkNum = 0;
+    
     try{
+      state.textOut="";
       if (state.user==null) {
+        state.textOut="";
         // if(state.email=="*"+"@example.com"){
 
         if(state.password.length<=5){
-          console.log("You can't regist user, because password length isn't correct. It need more 6 strings.");
-        }else
+          this.setState({textOut:"You can't regist user, because password length isn't correct. It need more 6 strings."});
+        }else{
         await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
           // Handle Errors here.
           var errorCode = error.code;
           var errorMessage = error.message;
           // ...
         }
-        
         );
+        checkNum = 1;
+        this.setState({textOut:"regist!!"});
         console.log("regist!!");
         console.log(state.email);
         console.log(state.password);
-        // }
+        console.log(checkNum);
+        }
       }
+      if(checkNum==1){
       await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
       console.log("login!!");
-      
+      }
+      console.log("failed...");
+      console.log(checkNum);
+      console.log(state.textOut);
+      console.log(this.textOut);
     } catch (e) {
     console.log(e);
     }
