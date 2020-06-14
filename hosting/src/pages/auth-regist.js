@@ -72,10 +72,10 @@ export class AuthRegist extends React.Component {
           position: relative;
         `}>
           <div>
-            <TextField label='E-mail' type='text' name='email' onChange={e => this.setState({email: e.target.value})} />
+            <TextField label='E-mail' type='text' name='email' onChange={e => this.validationCheck(e.target.value,e.target.name,state)} />
           </div>
           <div>
-            <TextField label='Password' type='password' name='password' onChange={e => this.setState({password: e.target.value})} />
+            <TextField label='Password' type='password' name='password' onChange={e => this.validationCheck(e.target.value,e.target.type,state)} />
           </div>
           <Button css={css`
             margin-top: 10px;
@@ -88,7 +88,7 @@ export class AuthRegist extends React.Component {
            font-size: 32px;
            color: blue; 
           `}
-          label='TextOutput' type='text' name='textOut' onChange={e => this.setState({textOut:e.target.value})}>{state.textOut}</div>
+          label='TextOutput' type='text' name='textout' onChange={e => this.setState({textout:e.target.value})}>{state.textout}</div>
         </div>
       );
     }
@@ -98,23 +98,74 @@ export class AuthRegist extends React.Component {
     email: '',
     password: '',
     user: null,
-    textOut: 'Welcome to Hogen-translate.',
+    textout: 'Welcome to Hogen-translate.',
   };
 
   unsubscribe = null;
+
+  validationCheck(value,type,validationstate) {
+    // const value = e.target.value;
+
+    try{
+      const check1 = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9]+\.[a-zA-Z0-9]+$/;
+      const check01 =/^\S+@\S+\.\S+$/;
+      const check2 = /^\d{3}-?\d{4}$/;
+      const check = /^[a-zA-Z0-9]+$/;
+
+      if(type=='email') {
+        this.setState({email: value});
+        const pattern = new RegExp(check01);
+        if(pattern.test(value)) {
+          this.setState({textout:"This is a correct e-mail address."});
+          console.log("check完了！");
+          console.log(value);
+          console.log(type);
+  
+        }else{
+          this.setState({textout:"You can't use this e-mail address."});
+          console.log("check失敗。");
+          console.log(value);
+          console.log(type);
+        }
+        
+      }else if(type=='password') {
+        this.setState({password: value});
+        const pattern = new RegExp(check);
+        if(pattern.test(value)) {
+          if(value.length<=5){
+            this.setState({textout:"You can't regist user, because password length isn't correct. It need more 6 strings."});
+          }else{
+  
+          this.setState({textout:"You can use this password."});
+          console.log("check完了！");
+          console.log(value);
+          console.log(type);
+          }
+        }else{
+          this.setState({textout:"You can use alphabets and numbers."});
+          console.log("check失敗。");
+          console.log(value);
+          console.log(type);
+        }
+      }
+
+    }catch(e){
+      console.log(e);
+    }
+  };
   
   registUser = async () => {
     const {state} = this;
     var checkNum = 0;
-    
+
     try{
-      state.textOut="";
+      state.textout="";
       if (state.user==null) {
-        state.textOut="";
+        state.textout="";
         // if(state.email=="*"+"@example.com"){
 
         if(state.password.length<=5){
-          this.setState({textOut:"You can't regist user, because password length isn't correct. It need more 6 strings."});
+          this.setState({textout:"You can't regist user, because password length isn't correct. It need more 6 strings."});
         }else{
         await firebase.auth().createUserWithEmailAndPassword(state.email, state.password).catch(function(error) {
           // Handle Errors here.
@@ -124,7 +175,7 @@ export class AuthRegist extends React.Component {
         }
         );
         checkNum = 1;
-        this.setState({textOut:"regist!!"});
+        this.setState({textout:"regist!!"});
         console.log("regist!!");
         console.log(state.email);
         console.log(state.password);
@@ -137,12 +188,16 @@ export class AuthRegist extends React.Component {
       }
       console.log("failed...");
       console.log(checkNum);
-      console.log(state.textOut);
-      console.log(this.textOut);
+      console.log(state.textout);
     } catch (e) {
     console.log(e);
     }
   } 
+
+  doCheck(e) {
+    alert(event.target.value +
+      "は長すぎます。（最大10文字）");
+  }
 
   signout = async () => {
     // console.log(state.user);
