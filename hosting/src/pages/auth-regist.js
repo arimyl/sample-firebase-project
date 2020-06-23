@@ -6,6 +6,7 @@ import { withTheme } from '@material-ui/styles';
 import firebase from 'common/firebase';
 import { TextField, Button } from '@material-ui/core';
 import {Link} from "gatsby";
+import Bar from "./Simple-Bar";
 
 // const userRegist = () => {
 //   const [num,setNum ] = setState(null);
@@ -49,9 +50,33 @@ import {Link} from "gatsby";
 //     }
 
 // }
+// const useStyles = makeStyles(theme => ({
+//   root: {
+//       flexGrow: 1,
+//   },
+//   menuButton: {
+//       marginRight: theme.spacing(1),
+//   },
+//   title: {
+//       flexGrow: 1,
+//   },
+//   formControl: {
+//       position: "static",
+//       marginRight: theme.spacing(3),
+//       minWidth: 120,
+//   },
+//   selectEmpty: {
+//       marginTop: theme.spacing(2),
+// 　},
+//   formSuccess: {
+//       marginRight: theme.spacing(1),
+//   },
+//   formFailure: {
+//       marginRight: theme.spacing(1),
+//   },
+// }));
 
-
-export class AuthRegist extends React.Component {
+class AuthRegist extends React.Component {
   render() {
     
     const { state, props } = this;
@@ -71,11 +96,23 @@ export class AuthRegist extends React.Component {
         <div css={css`
           position: relative;
         `}>
+          <div css={css`
+           position: relative;
+           font-size: 12px;
+           color: red; 
+          `}
+          label='Validation' type='text' name='validationemail' onChange={e => this.setState({validationemail:e.target.value})}>{state.validationemail}</div>
           <div>
             <TextField label='E-mail' type='text' name='email' onChange={e => this.validationCheck(e.target.value,e.target.name,state)} />
           </div>
+          <div css={css`
+           position: relative;
+           font-size: 12px;
+           color: red; 
+          `}
+          label='Validation' type='text' name='validationpassword' onChange={e => this.setState({validationpassword:e.target.value})}>{state.validationpassword}</div>          
           <div>
-            <TextField label='Password' type='password' name='password' onChange={e => this.validationCheck(e.target.value,e.target.type,state)} />
+            <TextField label='Password' type='password' name='password' onChange={e => this.validationCheck(e.target.value,e.target.name,state)} />
           </div>
           <Button css={css`
             margin-top: 10px;
@@ -98,12 +135,14 @@ export class AuthRegist extends React.Component {
     email: '',
     password: '',
     user: null,
+    validationemail: '',
+    validationpassword: '',
     textout: 'Welcome to Hogen-translate.',
   };
 
   unsubscribe = null;
 
-  validationCheck(value,type,validationstate) {
+  validationCheck(value,name,validationstate) {
     // const value = e.target.value;
 
     try{
@@ -112,40 +151,40 @@ export class AuthRegist extends React.Component {
       const check2 = /^\d{3}-?\d{4}$/;
       const check = /^[a-zA-Z0-9]+$/;
 
-      if(type=='email') {
+      if(name=='email') {
         this.setState({email: value});
         const pattern = new RegExp(check01);
         if(pattern.test(value)) {
-          this.setState({textout:"This is a correct e-mail address."});
+          this.setState({validationemail:""});
           console.log("check完了！");
           console.log(value);
-          console.log(type);
+          console.log(name);
   
         }else{
-          this.setState({textout:"You can't use this e-mail address."});
+          this.setState({validationemail:"You can't use this e-mail address."});
           console.log("check失敗。");
           console.log(value);
-          console.log(type);
+          console.log(name);
         }
         
-      }else if(type=='password') {
+      }else if(name=='password') {
         this.setState({password: value});
         const pattern = new RegExp(check);
         if(pattern.test(value)) {
           if(value.length<=5){
-            this.setState({textout:"You can't regist user, because password length isn't correct. It need more 6 strings."});
+            this.setState({validationpassword:"You can't regist user, because password length isn't correct. It need more 6 strings."});
           }else{
   
-          this.setState({textout:"You can use this password."});
+          this.setState({validationpassword:""});
           console.log("check完了！");
           console.log(value);
-          console.log(type);
+          console.log(name);
           }
         }else{
-          this.setState({textout:"You can use alphabets and numbers."});
+          this.setState({validationpassword:"You can use alphabets and numbers."});
           console.log("check失敗。");
           console.log(value);
-          console.log(type);
+          console.log(name);
         }
       }
 
@@ -185,6 +224,8 @@ export class AuthRegist extends React.Component {
       if(checkNum==1){
       await firebase.auth().signInWithEmailAndPassword(state.email, state.password);
       console.log("login!!");
+      console.log(state);
+      console.log(firebase.auth().signInWithEmailAndPassword(state.email, state.password));
       }
       console.log("failed...");
       console.log(checkNum);
@@ -230,22 +271,25 @@ export class AuthRegist extends React.Component {
 const Page = ({ theme }) => {
 
   return (
-    <React.Fragment>
-      {/* <Head>
-      </Head> */}
-      <main>
-        <div css={css`
-          margin: 0 auto;
-          max-width: ${breakpoints.lg.maxWidth};
-        `}>
+    <div>
+      <Bar />
+      <React.Fragment>
+        {/* <Head>
+        </Head> */}
+        <main>
           <div css={css`
-            padding: 32px;
+            margin: 0 auto;
+            max-width: ${breakpoints.lg.maxWidth};
           `}>
-            <AuthRegist><h1>サインイン済みの画面</h1></AuthRegist>
+            <div css={css`
+              padding: 32px;
+            `}>
+              <AuthRegist><h1>サインイン済みの画面</h1></AuthRegist>
+            </div>
           </div>
-        </div>
-      </main>
-    </React.Fragment>
+        </main>
+      </React.Fragment>
+    </div>
   );
 };
 
